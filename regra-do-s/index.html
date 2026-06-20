@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GrammarQuest — Present Simple</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0f1117;
+  --surface: #1a1f2e;
+  --surface2: #232a3b;
+  --border: rgba(255,255,255,0.07);
+  --accent:  #58cc02;
+  --accent2: #ffd900;
+  --accent3: #ff4b4b;
+  --accent4: #1cb0f6;
+  --accent5: #ce82ff;
+  --text: #ffffff;
+  --muted: #7f8fa6;
+  --radius: 16px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'Nunito',sans-serif;min-height:100vh;overflow-x:hidden;}
+
+/* ── SCREENS ── */
+.screen{display:none;min-height:100vh;padding:0 0 80px;}
+.screen.active{display:block;animation:fadeUp .35s ease;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── TOPBAR ── */
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:18px 20px 10px;position:sticky;top:0;background:var(--bg);z-index:10;border-bottom:1px solid var(--border);}
+.topbar-title{font-size:1.1rem;font-weight:800;color:var(--accent5);}
+.topbar-back{background:none;border:none;color:var(--muted);cursor:pointer;font-size:1.4rem;padding:4px 8px;border-radius:8px;}
+.topbar-back:hover{color:var(--text);}
+
+/* ── HOME ── */
+.home-hero{text-align:center;padding:40px 20px 28px;}
+.home-hero .logo{font-size:2.8rem;font-weight:900;background:linear-gradient(135deg,var(--accent5),var(--accent4));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;}
+.home-hero .sub{color:var(--muted);margin-top:6px;font-size:.95rem;}
+.xp-bar-wrap{margin:0 20px 24px;background:var(--surface);border-radius:50px;height:14px;border:1px solid var(--border);overflow:hidden;}
+.xp-bar-fill{height:100%;background:linear-gradient(90deg,var(--accent5),var(--accent4));border-radius:50px;transition:width .6s ease;}
+.xp-label{text-align:center;font-size:.8rem;color:var(--muted);margin-top:6px;margin-bottom:20px;}
+
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:0 20px 28px;}
+.stat-chip{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px 10px;text-align:center;}
+.stat-chip .val{font-size:1.5rem;font-weight:900;}
+.stat-chip .lbl{font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-top:2px;}
+
+.section-label{font-size:.7rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin:0 20px 10px;}
+
+.category-card{display:flex;align-items:center;gap:14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;margin:0 20px 10px;cursor:pointer;transition:all .2s;}
+.category-card:hover{border-color:rgba(255,255,255,.18);transform:translateY(-1px);}
+.category-card .icon{font-size:1.6rem;width:44px;text-align:center;}
+.category-card .info{flex:1;}
+.category-card .name{font-weight:800;font-size:1rem;}
+.category-card .count{font-size:.8rem;color:var(--muted);margin-top:2px;}
+.category-card .arrow{color:var(--muted);font-size:1.2rem;}
+.category-card .reinforce-btn{background:rgba(255,75,75,.15);border:1px solid rgba(255,75,75,.3);color:var(--accent3);border-radius:8px;padding:6px 10px;font-size:.75rem;font-weight:700;cursor:pointer;white-space:nowrap;}
+.category-card .reinforce-btn:hover{background:rgba(255,75,75,.25);}
+
+.nav-bar{position:fixed;bottom:0;left:0;right:0;background:var(--surface);border-top:1px solid var(--border);display:flex;z-index:20;}
+.nav-btn{flex:1;padding:12px 6px 14px;background:none;border:none;color:var(--muted);cursor:pointer;font-family:'Nunito',sans-serif;font-size:.7rem;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:4px;transition:color .2s;}
+.nav-btn .nav-icon{font-size:1.3rem;}
+.nav-btn.active{color:var(--accent5);}
+
+/* ── STUDY ── */
+.search-wrap{padding:14px 20px;}
+.search-input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:12px 16px;color:var(--text);font-family:'Nunito',sans-serif;font-size:.95rem;outline:none;}
+.search-input:focus{border-color:rgba(255,255,255,.2);}
+.study-tabs{display:flex;gap:8px;padding:0 20px 16px;overflow-x:auto;}
+.study-tab{padding:8px 16px;border-radius:50px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;font-family:'Nunito',sans-serif;font-size:.85rem;font-weight:700;white-space:nowrap;transition:all .2s;}
+.study-tab.active{background:var(--accent5);border-color:var(--accent5);color:#fff;}
+.flashcard-wrap{padding:0 20px;}
+.flashcard{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:32px 24px;text-align:center;margin-bottom:16px;min-height:160px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:transform .2s;}
+.flashcard:hover{transform:scale(1.01);}
+.fc-front{font-size:1.6rem;font-weight:900;}
+.fc-sub{font-size:.85rem;color:var(--muted);margin-top:8px;}
+.fc-back{color:var(--accent5);font-size:1.1rem;font-weight:700;margin-top:12px;display:none;}
+.flashcard.flipped .fc-back{display:block;}
+.fc-nav{display:flex;justify-content:center;gap:14px;margin-top:8px;}
+.fc-nav button{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:10px 20px;color:var(--text);cursor:pointer;font-family:'Nunito',sans-serif;font-weight:700;}
+.rules-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin:0 20px 12px;}
+.rules-card h3{font-size:1rem;font-weight:800;margin-bottom:10px;}
+.rule-row{display:flex;gap:10px;margin-bottom:8px;align-items:flex-start;}
+.rule-tag{min-width:50px;text-align:center;font-weight:900;font-size:.9rem;background:var(--surface2);border-radius:8px;padding:4px 8px;}
+.rule-desc{font-size:.87rem;color:var(--muted);line-height:1.5;}
+.rule-desc strong{color:var(--text);}
+.tts-btn{background:none;border:none;cursor:pointer;font-size:1.1rem;padding:4px 6px;color:var(--accent4);transition:transform .2s;}
+.tts-btn:hover{transform:scale(1.2);}
+
+/* ── REINFORCE ── */
+.reinforce-intro{padding:20px;color:var(--muted);font-size:.9rem;line-height:1.5;}
+.reinforce-grid{display:flex;flex-direction:column;gap:8px;padding:0 20px;}
+.reinforce-item{background:var(--surface);border:1.5px solid var(--border);border-radius:14px;padding:14px 16px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;transition:all .2s;}
+.reinforce-item.selected{border-color:var(--accent3);background:rgba(255,75,75,.08);}
+.reinforce-item .ri-text{font-size:.95rem;font-weight:700;}
+.reinforce-item .ri-sub{font-size:.78rem;color:var(--muted);}
+.reinforce-item .ri-flag{font-size:1.2rem;}
+.reinforce-cta{position:sticky;bottom:60px;padding:16px 20px;background:var(--bg);}
+.reinforce-cta button{width:100%;padding:16px;background:var(--accent3);border:none;border-radius:var(--radius);color:#fff;font-family:'Nunito',sans-serif;font-size:1rem;font-weight:800;cursor:pointer;}
+.reinforce-cta button:disabled{opacity:.4;cursor:default;}
+
+/* ── GAME ── */
+.game-hud{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;gap:12px;}
+.hud-lives{display:flex;gap:4px;font-size:1.2rem;}
+.hud-xp{font-size:.85rem;font-weight:800;color:var(--accent2);white-space:nowrap;}
+.hud-streak{font-size:.85rem;font-weight:800;color:var(--accent);white-space:nowrap;}
+.game-progress{height:6px;background:var(--surface);margin:0 20px 20px;border-radius:3px;overflow:hidden;}
+.game-progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:3px;transition:width .4s;}
+.question-wrap{padding:0 20px;}
+.q-category{font-size:.7rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--accent5);margin-bottom:8px;}
+.q-text{font-size:1.25rem;font-weight:800;line-height:1.4;margin-bottom:24px;}
+.q-text .blank{display:inline-block;min-width:80px;border-bottom:3px solid var(--accent5);color:var(--accent5);}
+.options-grid{display:flex;flex-direction:column;gap:10px;}
+.opt-btn{background:var(--surface);border:2px solid var(--border);border-radius:var(--radius);padding:14px 18px;text-align:left;color:var(--text);font-family:'Nunito',sans-serif;font-size:1rem;font-weight:700;cursor:pointer;transition:all .2s;}
+.opt-btn:hover:not(:disabled){border-color:var(--accent5);background:rgba(206,130,255,.08);}
+.opt-btn.correct{border-color:var(--accent);background:rgba(88,204,2,.12);color:var(--accent);}
+.opt-btn.wrong{border-color:var(--accent3);background:rgba(255,75,75,.1);color:var(--accent3);}
+.fill-area{display:flex;flex-direction:column;gap:12px;}
+.fill-game-input{background:var(--surface);border:2px solid var(--border);border-radius:12px;padding:14px 18px;color:var(--text);font-family:'Nunito',sans-serif;font-size:1.1rem;font-weight:700;outline:none;width:100%;transition:border-color .2s;}
+.fill-game-input:focus{border-color:var(--accent5);}
+.fill-game-input.correct{border-color:var(--accent);}
+.fill-game-input.wrong{border-color:var(--accent3);}
+.check-btn{width:100%;padding:16px;background:var(--accent5);border:none;border-radius:var(--radius);color:#fff;font-family:'Nunito',sans-serif;font-size:1rem;font-weight:800;cursor:pointer;margin-top:4px;}
+.check-btn:disabled{opacity:.4;}
+.feedback-panel{margin:16px 20px 0;background:var(--surface);border-radius:var(--radius);padding:16px 18px;border-left:4px solid var(--accent);display:none;}
+.feedback-panel.show{display:block;animation:fadeUp .3s ease;}
+.feedback-panel.wrong-panel{border-left-color:var(--accent3);}
+.feedback-panel .fb-title{font-weight:800;margin-bottom:4px;}
+.feedback-panel .fb-exp{font-size:.87rem;color:var(--muted);line-height:1.5;margin-top:6px;}
+.next-btn{width:calc(100% - 40px);margin:16px 20px 0;padding:16px;background:var(--accent);border:none;border-radius:var(--radius);color:#fff;font-family:'Nunito',sans-serif;font-size:1rem;font-weight:800;cursor:pointer;display:none;}
+.next-btn.show{display:block;}
+
+/* GAMEOVER / LEVELUP */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.85);display:flex;align-items:center;justify-content:center;z-index:100;display:none;}
+.overlay.show{display:flex;animation:fadeUp .3s ease;}
+.overlay-card{background:var(--surface);border-radius:24px;padding:40px 28px;text-align:center;max-width:360px;width:90%;border:1px solid var(--border);}
+.overlay-icon{font-size:4rem;line-height:1;margin-bottom:12px;}
+.overlay-title{font-size:1.6rem;font-weight:900;margin-bottom:8px;}
+.overlay-sub{color:var(--muted);font-size:.95rem;line-height:1.5;margin-bottom:24px;}
+.overlay-btn{display:block;width:100%;padding:16px;border:none;border-radius:var(--radius);font-family:'Nunito',sans-serif;font-size:1rem;font-weight:800;cursor:pointer;margin-bottom:10px;}
+.overlay-btn.primary{background:var(--accent);color:#fff;}
+.overlay-btn.secondary{background:var(--surface2);color:var(--text);}
+.streak-toast{position:fixed;top:80px;left:50%;transform:translateX(-50%);background:var(--accent2);color:#000;font-weight:900;padding:10px 24px;border-radius:50px;font-size:.95rem;z-index:99;display:none;white-space:nowrap;}
+.streak-toast.show{display:block;animation:toastIn .4s ease;}
+@keyframes toastIn{from{opacity:0;transform:translateX(-50%) scale(.8)}to{opacity:1;transform:translateX(-50%) scale(1)}}
+
+/* ── STATS ── */
+.stats-section{padding:16px 20px;}
+.stats-section h3{font-size:.85rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:12px;}
+.big-stat{background:var(--surface);border-radius:var(--radius);padding:20px;text-align:center;margin-bottom:10px;}
+.big-stat .bs-val{font-size:3rem;font-weight:900;}
+.big-stat .bs-lbl{font-size:.8rem;color:var(--muted);margin-top:4px;}
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;}
+.stats-item{background:var(--surface);border-radius:var(--radius);padding:16px;text-align:center;}
+.stats-item .si-val{font-size:1.6rem;font-weight:900;}
+.stats-item .si-lbl{font-size:.75rem;color:var(--muted);margin-top:3px;}
+.cat-stat-row{display:flex;align-items:center;gap:10px;background:var(--surface);border-radius:12px;padding:12px 16px;margin-bottom:8px;}
+.cat-stat-row .csr-icon{font-size:1.2rem;width:28px;}
+.cat-stat-row .csr-info{flex:1;}
+.cat-stat-row .csr-name{font-size:.9rem;font-weight:700;}
+.cat-bar{height:8px;background:var(--surface2);border-radius:4px;margin-top:5px;overflow:hidden;}
+.cat-bar-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--accent5),var(--accent4));transition:width .6s;}
+.cat-stat-row .csr-pct{font-size:.8rem;font-weight:800;color:var(--accent5);min-width:36px;text-align:right;}
+.achievement{display:flex;align-items:center;gap:12px;background:var(--surface);border-radius:14px;padding:14px 16px;margin-bottom:8px;border:1px solid var(--border);}
+.achievement.unlocked{border-color:var(--accent2);}
+.achievement .ach-icon{font-size:1.8rem;width:40px;text-align:center;filter:grayscale(1);opacity:.4;}
+.achievement.unlocked .ach-icon{filter:none;opacity:1;}
+.achievement .ach-name{font-size:.9rem;font-weight:800;}
+.achievement .ach-desc{font-size:.78rem;color:var(--muted);}
+
+/* ── RANKING ── */
+.ranking-item{display:flex;align-items:center;gap:12px;padding:14px 20px;border-bottom:1px solid var(--border);}
+.ranking-item.you{background:rgba(206,130,255,.06);}
+.rank-pos{font-size:1rem;font-weight:900;min-width:28px;text-align:center;}
+.rank-pos.gold{color:var(--accent2);}
+.rank-pos.silver{color:#c0c0c0;}
+.rank-pos.bronze{color:#cd7f32;}
+.rank-avatar{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.2rem;font-weight:900;}
+.rank-name{flex:1;font-weight:700;font-size:.95rem;}
+.rank-xp{font-size:.85rem;font-weight:800;color:var(--accent2);}
+</style>
+</head>
+<body>
+
+<!-- ══════════════ HOME ══════════════ -->
+<div class="screen active" id="screen-home">
+  <div class="home-hero">
+    <div class="logo">GrammarQuest</div>
+    <div class="sub">Present Simple — Rotinas, Fatos e Regra do S</div>
+  </div>
+  <div id="xp-bar-wrap" class="xp-bar-wrap"><div class="xp-bar-fill" id="xp-bar" style="width:0%"></div></div>
+  <div class="xp-label" id="xp-label">Nível 1 · 0 XP</div>
+  <div class="stats-row">
+    <div class="stat-chip"><div class="val" id="home-xp" style="color:var(--accent2)">0</div><div class="lbl">XP Total</div></div>
+    <div class="stat-chip"><div class="val" id="home-streak" style="color:var(--accent)">0</div><div class="lbl">🔥 Streak</div></div>
+    <div class="stat-chip"><div class="val" id="home-acc" style="color:var(--accent5)">—</div><div class="lbl">Precisão</div></div>
+  </div>
+  <div class="section-label">CATEGORIAS</div>
+  <div id="categories-list"></div>
+  <div style="height:70px"></div>
+  <div class="nav-bar">
+    <button class="nav-btn active" onclick="navTo('home')"><span class="nav-icon">🏠</span>Início</button>
+    <button class="nav-btn" onclick="navTo('study')"><span class="nav-icon">📖</span>Estudar</button>
+    <button class="nav-btn" onclick="navTo('stats')"><span class="nav-icon">📊</span>Stats</button>
+    <button class="nav-btn" onclick="navTo('ranking')"><span class="nav-icon">🏆</span>Ranking</button>
+  </div>
+</div>
+
+<!-- ══════════════ STUDY ══════════════ -->
+<div class="screen" id="screen-study">
+  <div class="topbar">
+    <button class="topbar-back" onclick="navTo('home')">←</button>
+    <div class="topbar-title">📖 Estudar</div>
+    <div style="width:40px"></div>
+  </div>
+  <div class="search-wrap"><input class="search-input" id="search-input" placeholder="🔍 Buscar regra ou exemplo..." oninput="filterStudy()"></div>
+  <div class="study-tabs">
+    <button class="study-tab active" onclick="setStudyTab('rules',this)">📋 Regras</button>
+    <button class="study-tab" onclick="setStudyTab('flashcards',this)">🃏 Flashcards</button>
+  </div>
+  <div id="study-rules"></div>
+  <div id="study-flashcards" style="display:none"></div>
+  <div style="height:20px"></div>
+  <div class="nav-bar">
+    <button class="nav-btn" onclick="navTo('home')"><span class="nav-icon">🏠</span>Início</button>
+    <button class="nav-btn active" onclick="navTo('study')"><span class="nav-icon">📖</span>Estudar</button>
+    <button class="nav-btn" onclick="navTo('stats')"><span class="nav-icon">📊</span>Stats</button>
+    <button class="nav-btn" onclick="navTo('ranking')"><span class="nav-icon">🏆</span>Ranking</button>
+  </div>
+</div>
+
+<!-- ══════════════ REINFORCE ══════════════ -->
+<div class="screen" id="screen-reinforce">
+  <div class="topbar">
+    <button class="topbar-back" onclick="navTo('home')">←</button>
+    <div class="topbar-title" id="reinforce-title">⚠️ Reforço</div>
+    <div style="width:40px"></div>
+  </div>
+  <div class="reinforce-intro">Selecione os tópicos que você tem <strong>mais dificuldade</strong>. Depois clique em Treinar para uma sessão focada.</div>
+  <div class="reinforce-grid" id="reinforce-grid"></div>
+  <div class="reinforce-cta">
+    <button id="reinforce-train-btn" onclick="startReinforce()" disabled>⚠️ Treinar Selecionadas (<span id="reinforce-count">0</span>)</button>
+  </div>
+</div>
+
+<!-- ══════════════ GAME ══════════════ -->
+<div class="screen" id="screen-game">
+  <div class="topbar">
+    <button class="topbar-back" onclick="confirmQuit()">✕</button>
+    <div class="topbar-title" id="game-title">🎮 Jogo</div>
+    <button class="tts-btn" id="tts-toggle" onclick="toggleAutoSpeak()" title="Fala automática">🔊</button>
+  </div>
+  <div class="game-hud">
+    <div class="hud-lives" id="hud-lives"></div>
+    <div class="hud-streak" id="hud-streak">🔥 0</div>
+    <div class="hud-xp" id="hud-xp">⭐ 0 XP</div>
+  </div>
+  <div class="game-progress"><div class="game-progress-fill" id="game-progress-fill" style="width:0%"></div></div>
+  <div class="question-wrap">
+    <div class="q-category" id="q-category"></div>
+    <div class="q-text" id="q-text"></div>
+    <div id="q-options"></div>
+  </div>
+  <div class="feedback-panel" id="feedback-panel">
+    <div class="fb-title" id="fb-title"></div>
+    <div class="fb-exp" id="fb-exp"></div>
+  </div>
+  <button class="next-btn" id="next-btn" onclick="nextQuestion()">Continuar →</button>
+</div>
+
+<!-- ══════════════ STATS ══════════════ -->
+<div class="screen" id="screen-stats">
+  <div class="topbar">
+    <div style="width:40px"></div>
+    <div class="topbar-title">📊 Estatísticas</div>
+    <div style="width:40px"></div>
+  </div>
+  <div class="stats-section">
+    <div class="stats-grid">
+      <div class="stats-item"><div class="si-val" id="st-total" style="color:var(--accent2)">0</div><div class="si-lbl">XP Total</div></div>
+      <div class="stats-item"><div class="si-val" id="st-level" style="color:var(--accent5)">1</div><div class="si-lbl">Nível</div></div>
+      <div class="stats-item"><div class="si-val" id="st-correct" style="color:var(--accent)">0</div><div class="si-lbl">Acertos</div></div>
+      <div class="stats-item"><div class="si-val" id="st-streak" style="color:var(--accent3)">0</div><div class="si-lbl">🔥 Max Streak</div></div>
+    </div>
+    <h3>Precisão por categoria</h3>
+    <div id="cat-stats-list"></div>
+    <h3 style="margin-top:20px">Conquistas</h3>
+    <div id="achievements-list"></div>
+  </div>
+  <div style="height:70px"></div>
+  <div class="nav-bar">
+    <button class="nav-btn" onclick="navTo('home')"><span class="nav-icon">🏠</span>Início</button>
+    <button class="nav-btn" onclick="navTo('study')"><span class="nav-icon">📖</span>Estudar</button>
+    <button class="nav-btn active" onclick="navTo('stats')"><span class="nav-icon">📊</span>Stats</button>
+    <button class="nav-btn" onclick="navTo('ranking')"><span class="nav-icon">🏆</span>Ranking</button>
+  </div>
+</div>
+
+<!-- ══════════════ RANKING ══════════════ -->
+<div class="screen" id="screen-ranking">
+  <div class="topbar">
+    <div style="width:40px"></div>
+    <div class="topbar-title">🏆 Ranking</div>
+    <div style="width:40px"></div>
+  </div>
+  <div id="ranking-list" style="padding-top:10px"></div>
+  <div style="height:70px"></div>
+  <div class="nav-bar">
+    <button class="nav-btn" onclick="navTo('home')"><span class="nav-icon">🏠</span>Início</button>
+    <button class="nav-btn" onclick="navTo('study')"><span class="nav-icon">📖</span>Estudar</button>
+    <button class="nav-btn" onclick="navTo('stats')"><span class="nav-icon">📊</span>Stats</button>
+    <button class="nav-btn active" onclick="navTo('ranking')"><span class="nav-icon">🏆</span>Ranking</button>
+  </div>
+</div>
+
+<!-- ── MODE SELECT OVERLAY ── -->
+<div class="overlay" id="mode-overlay">
+  <div class="overlay-card">
+    <div class="overlay-icon">🎮</div>
+    <div class="overlay-title" id="mode-cat-name">Escolha o Modo</div>
+    <div class="overlay-sub">Como você quer praticar?</div>
+    <button class="overlay-btn primary" onclick="startGame('choice')">🎯 Múltipla Escolha</button>
+    <button class="overlay-btn primary" style="background:var(--accent4)" onclick="startGame('fill')">✏️ Complete a Frase</button>
+    <button class="overlay-btn primary" style="background:var(--accent5)" onclick="startGame('mixed')">🔀 Modo Misto</button>
+    <button class="overlay-btn secondary" onclick="closeOverlay('mode-overlay')">Cancelar</button>
+  </div>
+</div>
+
+<!-- ── GAMEOVER OVERLAY ── -->
+<div class="overlay" id="gameover-overlay">
+  <div class="overlay-card">
+    <div class="overlay-icon">💔</div>
+    <div class="overlay-title">Game Over</div>
+    <div class="overlay-sub" id="gameover-msg"></div>
+    <button class="overlay-btn primary" onclick="restartGame()">🔄 Jogar de Novo</button>
+    <button class="overlay-btn secondary" onclick="quitGame()">← Início</button>
+  </div>
+</div>
+
+<!-- ── LEVEL UP OVERLAY ── -->
+<div class="overlay" id="levelup-overlay">
+  <div class="overlay-card">
+    <div class="overlay-icon">🎉</div>
+    <div class="overlay-title">Level Up!</div>
+    <div class="overlay-sub" id="levelup-msg"></div>
+    <button class="overlay-btn primary" onclick="closeOverlay('levelup-overlay')">Continuar 🚀</button>
+  </div>
+</div>
+
+<!-- ── SESSION END OVERLAY ── -->
+<div class="overlay" id="sessionend-overlay">
+  <div class="overlay-card">
+    <div class="overlay-icon">🏅</div>
+    <div class="overlay-title">Sessão Concluída!</div>
+    <div class="overlay-sub" id="sessionend-msg"></div>
+    <button class="overlay-btn primary" onclick="restartGame()">🔄 Jogar de Novo</button>
+    <button class="overlay-btn secondary" onclick="quitGame()">← Início</button>
+  </div>
+</div>
+
+<!-- ── STREAK TOAST ── -->
+<div class="streak-toast" id="streak-toast"></div>
+
+<script>
+// ═══════════════════════════════════════
+// DATA
+// ═══════════════════════════════════════
+const CATEGORIES = [
+  {
+    id: 'when',
+    icon: '📅',
+    name: 'Quando usar',
+    color: '#1cb0f6',
+    items: [
+      { en: 'Routines & Habits', pt: 'Rotinas e Hábitos', exp: 'Ações que ocorrem com frequência: I wake up at 7.', alt: ['rotinas','habitos','hábitos'] },
+      { en: 'Universal Facts', pt: 'Fatos Universais', exp: 'Coisas sempre verdadeiras: The sun rises in the east.', alt: ['fatos','verdades universais'] },
+      { en: 'Permanent States', pt: 'Situações Duradouras', exp: 'Coisas que não mudam rápido: She lives in a big city.', alt: ['situações permanentes','estados permanentes'] },
+      { en: 'NOT for right now', pt: 'NÃO para o momento atual', exp: 'Use Present Continuous para o que está acontecendo agora.', alt: [] },
+    ]
+  },
+  {
+    id: 'third',
+    icon: '👤',
+    name: 'Regra do S (3ª Pessoa)',
+    color: '#ce82ff',
+    items: [
+      { en: 'work → works', pt: '+S (regra geral)', exp: 'A maioria dos verbos: consoante → adiciona S. work→works, listen→listens', alt: ['works','regra geral'] },
+      { en: 'study → studies', pt: '+IES (consoante+Y)', exp: 'Verbo termina em consoante+Y: retira Y, adiciona IES. study→studies, carry→carries', alt: ['studies','ies'] },
+      { en: 'watch → watches', pt: '+ES (o,ss,sh,ch,x,z)', exp: 'Verbo termina em o,ss,sh,ch,x,z: adiciona ES. watch→watches, kiss→kisses', alt: ['watches','es'] },
+      { en: 'play → plays', pt: '+S (vogal+Y)', exp: 'Verbo termina em vogal+Y: só adiciona S. play→plays, enjoy→enjoys', alt: ['plays'] },
+      { en: 'go → goes', pt: '+ES (termina em O)', exp: 'go e do são especiais: go→goes, do→does', alt: ['goes'] },
+      { en: 'have → has', pt: 'IRREGULAR', exp: 'have é irregular! He/She/It HAS (não "haves")', alt: ['has','irregular'] },
+    ]
+  },
+  {
+    id: 'auxiliary',
+    icon: '🔀',
+    name: 'Do / Does',
+    color: '#ffd900',
+    items: [
+      { en: 'Do (I/You/We/They)', pt: 'DO — Pergunta/Negação', exp: 'Usado para I, You, We, They em perguntas e negações.', alt: ['do'] },
+      { en: "Don't (I/You/We/They)", pt: "DON'T — Negativa", exp: "I/You/We/They + don't + verbo base. I don't like cold weather.", alt: ["dont","don't"] },
+      { en: 'Does (He/She/It)', pt: 'DOES — Pergunta/Negação', exp: 'Usado para He, She, It em perguntas e negações.', alt: ['does'] },
+      { en: "Doesn't (He/She/It)", pt: "DOESN'T — Negativa", exp: "He/She/It + doesn't + verbo base (sem S!). She doesn't work.", alt: ["doesnt","doesn't"] },
+      { en: '"Lazy Verb" Rule', pt: 'Verbo Preguiçoso', exp: "Quando Does/Doesn't aparece, ele 'rouba' o S do verbo principal.", alt: ['verbo preguiçoso','lazy verb'] },
+    ]
+  },
+  {
+    id: 'shortanswers',
+    icon: '💬',
+    name: 'Short Answers',
+    color: '#58cc02',
+    items: [
+      { en: 'Yes, I do.', pt: 'Sim (I/You/We/They)', exp: "Do you like pizza? → Yes, I do.", alt: ['yes i do'] },
+      { en: "No, I don't.", pt: 'Não (I/You/We/They)', exp: "Do you live here? → No, I don't.", alt: ["no i don't","no i dont"] },
+      { en: 'Yes, she does.', pt: 'Sim (He/She/It)', exp: "Does she study? → Yes, she does.", alt: ['yes she does'] },
+      { en: "No, he doesn't.", pt: 'Não (He/She/It)', exp: "Does he drive? → No, he doesn't.", alt: ["no he doesn't","no he doesnt"] },
+    ]
+  }
+];
+
+// Questions bank: {cat, type:'choice'|'fill', q, opts, ans(index), exp, answer(string)}
+const QUESTIONS = [
+  // 3ª pessoa - choice
+  {cat:'third',type:'choice',q:'She ___ to music every night.',opts:['listen','listens','listenies','does listen'],ans:1,exp:'Regra geral → consoante+S. listen → listens'},
+  {cat:'third',type:'choice',q:'He ___ to work by bus.',opts:['go','gos','goes','does go'],ans:2,exp:'Terminação em O → +ES. go → goes'},
+  {cat:'third',type:'choice',q:'She ___ French at school.',opts:['studys','studies','studyes','study'],ans:1,exp:'Consoante+Y → retira Y, adiciona IES. study → studies'},
+  {cat:'third',type:'choice',q:'My cat ___ all day.',opts:['sleep','sleeps','sleepes','sleeping'],ans:1,exp:'Regra geral → sleep + s = sleeps'},
+  {cat:'third',type:'choice',q:'She ___ the dishes every day.',opts:['washs','washes','washies','wash'],ans:1,exp:'Terminação SH → +ES. wash → washes'},
+  {cat:'third',type:'choice',q:'He ___ two languages.',opts:['speak','speakes','speaks','do speak'],ans:2,exp:'Regra geral → speak + s = speaks'},
+  {cat:'third',type:'choice',q:'My mom ___ the piano beautifully.',opts:['plaies','plays','playes','does plays'],ans:1,exp:'Vogal+Y → só adiciona S. play → plays'},
+  {cat:'third',type:'choice',q:'The bus ___ at 8am.',opts:['leave','leaves','leafs','leaes'],ans:1,exp:'Regra geral → leave + s = leaves'},
+  {cat:'third',type:'choice',q:'He ___ his teeth twice a day.',opts:['brush','brushes','brushs','brishes'],ans:1,exp:'Terminação SH → +ES. brush → brushes'},
+  {cat:'third',type:'choice',q:'It ___ a lot in winter here.',opts:['rainy','rains','rain','raines'],ans:1,exp:'Regra geral → rain + s = rains'},
+  {cat:'third',type:'choice',q:'He ___ his homework after school.',opts:['do','does','doos','doies'],ans:1,exp:'do é irregular → He/She/It DOES'},
+  {cat:'third',type:'choice',q:'She ___ (fly) to London every month.',opts:['flys','flies','flyes','fly'],ans:1,exp:'Consoante+Y → retira Y, adiciona IES. fly → flies'},
+  {cat:'third',type:'choice',q:'My dad ___ cars for a living.',opts:['fix','fixs','fixes','fixies'],ans:2,exp:'Terminação X → +ES. fix → fixes'},
+  {cat:'third',type:'choice',q:'She ___ her lunch to school.',opts:['carrys','carries','carres','carry'],ans:1,exp:'Consoante+Y → retira Y, adiciona IES. carry → carries'},
+  {cat:'third',type:'choice',q:'He ___ (have) a dog.',opts:['have','haves','has','does have'],ans:2,exp:'have é irregular → He/She/It HAS'},
+  // Auxiliares - choice
+  {cat:'auxiliary',type:'choice',q:'_____ she work on weekends?',opts:['Do','Does','Is','Have'],ans:1,exp:'She → usamos DOES para perguntas'},
+  {cat:'auxiliary',type:'choice',q:'They ___ live in Paris.',opts:["doesn't","isn't","don't","not"],ans:2,exp:'They → usamos DON\'T para negar'},
+  {cat:'auxiliary',type:'choice',q:'He _____ play guitar.',opts:["don't","doesn't","isn't","not"],ans:1,exp:'He → usamos DOESN\'T. Verbo volta à forma base: play (sem S)'},
+  {cat:'auxiliary',type:'choice',q:'___ you have classes on Saturdays?',opts:['Does','Is','Do','Are'],ans:2,exp:'You → usamos DO para perguntas'},
+  {cat:'auxiliary',type:'choice',q:'She ___ (not) drink coffee.',opts:["don't","isn't","doesn't","not"],ans:2,exp:'She → usamos DOESN\'T para negar'},
+  {cat:'auxiliary',type:'choice',q:'___ your parents speak English?',opts:['Does','Is','Do','Are'],ans:2,exp:'Your parents = They → usamos DO para perguntas'},
+  {cat:'auxiliary',type:'choice',q:'He _____ go to the gym on Mondays.',opts:["doesn't","don't","isn't","not"],ans:0,exp:'He → usamos DOESN\'T. E o verbo fica na forma base: go (sem ES)'},
+  {cat:'auxiliary',type:'choice',q:'___ it rain a lot here?',opts:['Is','Do','Does','Are'],ans:2,exp:'It → usamos DOES para perguntas'},
+  // Short answers - choice
+  {cat:'shortanswers',type:'choice',q:'Does your brother like coffee? — Yes, ___',opts:['he do.','he does.','he is.','does he.'],ans:1,exp:'Short answer com DOES: Yes, he does.'},
+  {cat:'shortanswers',type:'choice',q:'Do they live together? — No, ___',opts:["they doesn't.","they don't.","they aren't.","they not."],ans:1,exp:"Short answer com DON'T: No, they don't."},
+  {cat:'shortanswers',type:'choice',q:'Does Maria cook at home? — No, ___',opts:["she don't.","she doesn't.","she isn't.","no she do."],ans:1,exp:"Short answer com DOESN'T: No, she doesn't."},
+  {cat:'shortanswers',type:'choice',q:'Do you exercise? — Yes, ___',opts:['I do.','I does.','I am.','I did.'],ans:0,exp:'Short answer com DO: Yes, I do.'},
+  {cat:'shortanswers',type:'choice',q:'Does he speak Spanish? — Yes, ___',opts:['he do.','he does.','he speaks.','yes he.'],ans:1,exp:'Short answer com DOES: Yes, he does.'},
+  // Fill
+  {cat:'third',type:'fill',q:'My sister ___ (study) medicine.',answer:'studies',exp:'Consoante+Y → retira Y, adiciona IES. study → studies'},
+  {cat:'auxiliary',type:'fill',q:'He ___ (not/like) spicy food.',answer:"doesn't like",exp:'He → doesn\'t + verbo base (sem S)'},
+  {cat:'third',type:'fill',q:'The dog ___ (bark) every morning.',answer:'barks',exp:'Regra geral → bark + s = barks'},
+  {cat:'third',type:'fill',q:'She ___ (teach) English.',answer:'teaches',exp:'Terminação CH → +ES. teach → teaches'},
+  {cat:'auxiliary',type:'fill',q:'We ___ (not/watch) TV on weekdays.',answer:"don't watch",exp:"We → don't + verbo base"},
+  {cat:'third',type:'fill',q:'He ___ (have) two brothers.',answer:'has',exp:'have é irregular → He/She/It HAS'},
+  {cat:'third',type:'fill',q:'She ___ (fly) to London every month.',answer:'flies',exp:'Consoante+Y → retira Y, adiciona IES. fly → flies'},
+  {cat:'third',type:'fill',q:'The Earth ___ (go) around the Sun.',answer:'goes',exp:'Terminação O → +ES. go → goes'},
+  {cat:'auxiliary',type:'fill',q:'I ___ (not/understand) this rule.',answer:"don't understand",exp:"I → don't + verbo base"},
+  {cat:'third',type:'fill',q:'She ___ (carry) her lunch to school.',answer:'carries',exp:'Consoante+Y → retira Y, adiciona IES. carry → carries'},
+  {cat:'auxiliary',type:'fill',q:'Tom and Ana ___ (not/speak) French.',answer:"don't speak",exp:"They → don't + verbo base"},
+  {cat:'third',type:'fill',q:'My dad ___ (fix) cars for a living.',answer:'fixes',exp:'Terminação X → +ES. fix → fixes'},
+];
+
+// ═══════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════
+const DEFAULT_STATE = {
+  xp: 0, level: 1, streakMax: 0,
+  totalCorrect: 0, totalAnswered: 0,
+  catStats: {},
+  achievements: { first: false, streak5: false, streak10: false, xp100: false, xp500: false, perfect: false },
+  autoSpeak: true
+};
+
+function loadState() {
+  try { return { ...DEFAULT_STATE, ...JSON.parse(localStorage.getItem('grammarquest_v1') || '{}') }; }
+  catch { return { ...DEFAULT_STATE }; }
+}
+function saveState() { localStorage.setItem('grammarquest_v1', JSON.stringify(state)); }
+let state = loadState();
+
+// ═══════════════════════════════════════
+// TTS
+// ═══════════════════════════════════════
+const tts = {
+  voices: [],
+  best: null,
+  init() {
+    if (!window.speechSynthesis) return;
+    const load = () => {
+      this.voices = speechSynthesis.getVoices();
+      this.best = this.voices.find(v => v.lang.startsWith('en') && v.name.includes('Samantha'))
+        || this.voices.find(v => v.lang === 'en-US')
+        || this.voices.find(v => v.lang.startsWith('en'))
+        || null;
+    };
+    load();
+    speechSynthesis.onvoiceschanged = load;
+  },
+  speak(text) {
+    if (!window.speechSynthesis || !state.autoSpeak) return;
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text.replace(/_+/g,'blank').replace(/\(.*?\)/g,''));
+    u.lang = 'en-US';
+    u.rate = 0.9;
+    if (this.best) u.voice = this.best;
+    speechSynthesis.speak(u);
+  },
+  speakDirect(text) {
+    const prev = state.autoSpeak;
+    state.autoSpeak = true;
+    this.speak(text);
+    state.autoSpeak = prev;
+  }
+};
+
+// ═══════════════════════════════════════
+// AUDIO
+// ═══════════════════════════════════════
+function playCorrect() {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    [523,659,784].forEach((f,i) => {
+      const o = ctx.createOscillator(), g = ctx.createGain();
+      o.connect(g); g.connect(ctx.destination);
+      o.frequency.value = f; o.type = 'sine';
+      g.gain.setValueAtTime(0.15, ctx.currentTime + i*0.12);
+      g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i*0.12 + 0.2);
+      o.start(ctx.currentTime + i*0.12);
+      o.stop(ctx.currentTime + i*0.12 + 0.25);
+    });
+  } catch {}
+}
+function playWrong() {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const o = ctx.createOscillator(), g = ctx.createGain();
+    o.connect(g); g.connect(ctx.destination);
+    o.type = 'sawtooth'; o.frequency.value = 160;
+    g.gain.setValueAtTime(0.2, ctx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.4);
+    o.start(); o.stop(ctx.currentTime + 0.4);
+  } catch {}
+}
+function playStreak() {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    [523,587,659,698,784].forEach((f,i) => {
+      const o = ctx.createOscillator(), g = ctx.createGain();
+      o.connect(g); g.connect(ctx.destination);
+      o.frequency.value = f;
+      g.gain.setValueAtTime(0.15, ctx.currentTime + i*0.1);
+      g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i*0.1 + 0.15);
+      o.start(ctx.currentTime + i*0.1);
+      o.stop(ctx.currentTime + i*0.1 + 0.2);
+    });
+  } catch {}
+}
+
+// ═══════════════════════════════════════
+// NAV
+// ═══════════════════════════════════════
+function navTo(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-' + id).classList.add('active');
+  if (id === 'home') renderHome();
+  if (id === 'study') renderStudy();
+  if (id === 'stats') renderStats();
+  if (id === 'ranking') renderRanking();
+}
+
+// ═══════════════════════════════════════
+// HOME
+// ═══════════════════════════════════════
+function renderHome() {
+  const lvl = state.level;
+  const xpNeeded = lvl * 100;
+  const xpPct = Math.min(100, Math.round((state.xp % xpNeeded) / xpNeeded * 100));
+  document.getElementById('xp-bar').style.width = xpPct + '%';
+  document.getElementById('xp-label').textContent = 'Nível ' + lvl + ' · ' + state.xp + ' XP';
+  document.getElementById('home-xp').textContent = state.xp;
+  document.getElementById('home-streak').textContent = state.streakMax;
+  const acc = state.totalAnswered ? Math.round(state.totalCorrect / state.totalAnswered * 100) + '%' : '—';
+  document.getElementById('home-acc').textContent = acc;
+
+  const list = document.getElementById('categories-list');
+  list.innerHTML = CATEGORIES.map(cat => {
+    const cs = state.catStats[cat.id] || {correct:0, answered:0};
+    const pct = cs.answered ? Math.round(cs.correct / cs.answered * 100) : 0;
+    const countLabel = cs.answered ? pct + '% de acerto' : 'Não praticado';
+    return '<div class="category-card" onclick="openModeSelect(\'' + cat.id + '\')">'
+      + '<div class="icon">' + cat.icon + '</div>'
+      + '<div class="info"><div class="name">' + cat.name + '</div><div class="count">' + countLabel + '</div></div>'
+      + '<button class="reinforce-btn" onclick="event.stopPropagation();openReinforce(\'' + cat.id + '\')">⚠️ Reforço</button>'
+      + '<span class="arrow">›</span></div>';
+  }).join('');
+}
+
+// ═══════════════════════════════════════
+// MODE SELECT
+// ═══════════════════════════════════════
+let selectedCat = null;
+function openModeSelect(catId) {
+  selectedCat = catId;
+  const cat = CATEGORIES.find(c => c.id === catId);
+  document.getElementById('mode-cat-name').textContent = cat.icon + ' ' + cat.name;
+  document.getElementById('mode-overlay').classList.add('show');
+}
+function closeOverlay(id) { document.getElementById(id).classList.remove('show'); }
+
+// ═══════════════════════════════════════
+// GAME
+// ═══════════════════════════════════════
+let gameMode, gameCat, gameQuestions, gameIdx, gameLives, gameXP, gameStreak, gameCorrect, gameIsReinforce, gameReinforceItems;
+
+function startGame(mode) {
+  closeOverlay('mode-overlay');
+  gameMode = mode;
+  gameCat = selectedCat;
+  gameLives = 5; gameXP = 0; gameStreak = 0; gameCorrect = 0; gameIdx = 0;
+  gameIsReinforce = false;
+
+  let pool = QUESTIONS.filter(q => q.cat === gameCat);
+  if (pool.length === 0) pool = QUESTIONS;
+  gameQuestions = shuffle(pool).slice(0, 20);
+
+  document.getElementById('game-title').textContent = '🎮 ' + CATEGORIES.find(c => c.id === gameCat)?.name || 'Jogo';
+  navTo('game');
+  renderHUD();
+  renderQuestion();
+}
+
+function startReinforce() {
+  const selected = Array.from(document.querySelectorAll('.reinforce-item.selected'));
+  if (!selected.length) return;
+  closeOverlay('mode-overlay');
+  gameLives = 5; gameXP = 0; gameStreak = 0; gameCorrect = 0; gameIdx = 0;
+  gameIsReinforce = true;
+  gameMode = 'mixed';
+
+  const ids = selected.map(el => el.dataset.id);
+  // build questions from selected items
+  const pool = [];
+  CATEGORIES.forEach(cat => {
+    cat.items.forEach(item => {
+      if (ids.includes(cat.id + '_' + item.en)) {
+        pool.push({
+          cat: cat.id,
+          type: 'choice',
+          q: 'O que é: "' + item.en + '"?',
+          opts: shuffle([item.pt, ...getWrongPts(cat.id, item.pt)]).slice(0, 4),
+          exp: item.exp
+        });
+        pool.push({
+          cat: cat.id,
+          type: 'fill',
+          q: item.exp.split(':')[0] + ' — como se escreve o verbo: ' + item.en.split('→')[0].trim() + ' (3ª pessoa)?',
+          answer: item.en.includes('→') ? item.en.split('→')[1].trim() : item.pt,
+          exp: item.exp
+        });
+      }
+    });
+  });
+
+  gameQuestions = shuffle(pool.length ? pool : QUESTIONS).slice(0, 20);
+  // fix ans index for choice questions generated above
+  gameQuestions.forEach(q => {
+    if (q.type === 'choice' && q.ans === undefined) {
+      q.ans = q.opts.indexOf(q.opts.find(o => o === q.opts[0]));
+      // find correct opt
+      const cat = CATEGORIES.find(c => c.id === q.cat);
+      if (cat) {
+        const origPt = q.q.match(/"(.+?)"/)?.[1];
+        const item = cat.items.find(i => i.en === origPt);
+        if (item) q.ans = q.opts.indexOf(item.pt);
+      }
+    }
+  });
+
+  document.getElementById('game-title').textContent = '⚠️ Reforço';
+  navTo('game');
+  renderHUD();
+  renderQuestion();
+}
+
+function getWrongPts(catId, correctPt) {
+  const wrongs = [];
+  CATEGORIES.forEach(cat => {
+    cat.items.forEach(item => {
+      if (item.pt !== correctPt) wrongs.push(item.pt);
+    });
+  });
+  return shuffle(wrongs).slice(0, 3);
+}
+
+function renderHUD() {
+  const lives = document.getElementById('hud-lives');
+  lives.innerHTML = Array.from({length: 5}, (_, i) => i < gameLives ? '❤️' : '🖤').join('');
+  document.getElementById('hud-xp').textContent = '⭐ ' + gameXP + ' XP';
+  document.getElementById('hud-streak').textContent = '🔥 ' + gameStreak;
+  const pct = Math.round(gameIdx / Math.max(1, gameQuestions.length) * 100);
+  document.getElementById('game-progress-fill').style.width = pct + '%';
+}
+
+function renderQuestion() {
+  if (gameIdx >= gameQuestions.length) { endSession(); return; }
+  const q = gameQuestions[gameIdx];
+  document.getElementById('feedback-panel').className = 'feedback-panel';
+  document.getElementById('next-btn').className = 'next-btn';
+
+  let type = q.type;
+  if (gameMode === 'mixed') type = type; // keep original
+  if (gameMode === 'choice') type = 'choice';
+  if (gameMode === 'fill') type = 'fill';
+
+  const cat = CATEGORIES.find(c => c.id === q.cat);
+  document.getElementById('q-category').textContent = (cat?.icon || '') + ' ' + (cat?.name || q.cat);
+  document.getElementById('q-text').textContent = q.q;
+
+  const optWrap = document.getElementById('q-options');
+  if (type === 'choice') {
+    const opts = q.opts || [];
+    optWrap.innerHTML = '<div class="options-grid">'
+      + opts.map((o, i) => '<button class="opt-btn" onclick="checkChoice(' + i + ')">' + o + '</button>').join('')
+      + '</div>';
+  } else {
+    optWrap.innerHTML = '<div class="fill-area">'
+      + '<input class="fill-game-input" id="game-fill-inp" type="text" placeholder="Digite a resposta..." autocomplete="off" onkeydown="if(event.key===\'Enter\')checkFillGame()"/>'
+      + '<button class="check-btn" onclick="checkFillGame()">Verificar ✓</button>'
+      + '</div>';
+    setTimeout(() => document.getElementById('game-fill-inp')?.focus(), 100);
+  }
+
+  if (state.autoSpeak) tts.speak(q.q);
+  renderHUD();
+}
+
+function checkChoice(i) {
+  const q = gameQuestions[gameIdx];
+  const btns = document.querySelectorAll('.opt-btn');
+  btns.forEach(b => b.disabled = true);
+  const correct = i === q.ans;
+  btns[i].classList.add(correct ? 'correct' : 'wrong');
+  if (!correct) btns[q.ans].classList.add('correct');
+  handleResult(correct, q);
+}
+
+function checkFillGame() {
+  const inp = document.getElementById('game-fill-inp');
+  if (!inp || inp.disabled) return;
+  const q = gameQuestions[gameIdx];
+  const val = normalizeStr(inp.value);
+  const correctVals = [normalizeStr(q.answer), ...(q.alt||[]).map(normalizeStr)];
+  const correct = correctVals.includes(val);
+  inp.classList.add(correct ? 'correct' : 'wrong');
+  inp.disabled = true;
+  document.querySelector('.check-btn').disabled = true;
+  handleResult(correct, q);
+}
+
+function normalizeStr(s) {
+  return (s || '').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9 ]/g,' ').replace(/\s+/g,' ').trim();
+}
+
+function handleResult(correct, q) {
+  const fb = document.getElementById('feedback-panel');
+  const fbTitle = document.getElementById('fb-title');
+  const fbExp = document.getElementById('fb-exp');
+
+  if (correct) {
+    gameStreak++;
+    const xpGain = gameStreak >= 10 ? 30 : gameStreak >= 5 ? 20 : 10;
+    gameXP += xpGain;
+    gameCorrect++;
+    playCorrect();
+    fb.className = 'feedback-panel show';
+    fbTitle.innerHTML = '✅ Correto! +' + xpGain + ' XP';
+    fbExp.textContent = q.exp || '';
+
+    if (gameStreak === 5) { showStreakToast('🔥 5 acertos seguidos! Combo!'); playStreak(); }
+    if (gameStreak === 10) { showStreakToast('⚡ 10 acertos! Incrível!'); playStreak(); }
+
+    // update state
+    state.totalCorrect++;
+    state.totalAnswered++;
+    state.xp += xpGain;
+    if (gameStreak > state.streakMax) state.streakMax = gameStreak;
+    updateCatStat(q.cat, true);
+    checkLevelUp();
+    checkAchievements();
+  } else {
+    gameLives--;
+    gameStreak = 0;
+    playWrong();
+    fb.className = 'feedback-panel wrong-panel show';
+    fbTitle.innerHTML = '❌ Errado!';
+    const correctAns = q.opts ? q.opts[q.ans] : q.answer;
+    fbExp.innerHTML = 'Resposta: <strong>' + correctAns + '</strong>' + (q.exp ? '<br>' + q.exp : '');
+
+    state.totalAnswered++;
+    updateCatStat(q.cat, false);
+  }
+
+  document.getElementById('next-btn').className = 'next-btn show';
+  renderHUD();
+  saveState();
+
+  if (gameLives <= 0) {
+    setTimeout(() => {
+      document.getElementById('gameover-msg').textContent =
+        'Você respondeu ' + gameCorrect + ' pergunta(s) correta(s) e ganhou ' + gameXP + ' XP nesta sessão.';
+      document.getElementById('gameover-overlay').classList.add('show');
+    }, 900);
+  }
+}
+
+function updateCatStat(catId, correct) {
+  if (!state.catStats[catId]) state.catStats[catId] = {correct:0, answered:0};
+  state.catStats[catId].answered++;
+  if (correct) state.catStats[catId].correct++;
+}
+
+function checkLevelUp() {
+  const needed = state.level * 100;
+  const xpInLevel = state.xp - ((state.level - 1) * state.level / 2 * 100);
+  // simple: level = floor(xp/100)+1
+  const newLevel = Math.floor(state.xp / 100) + 1;
+  if (newLevel > state.level) {
+    state.level = newLevel;
+    document.getElementById('levelup-msg').textContent = 'Você alcançou o Nível ' + newLevel + '! Continue assim! 💪';
+    document.getElementById('levelup-overlay').classList.add('show');
+  }
+}
+
+function checkAchievements() {
+  if (!state.achievements.first && state.totalAnswered >= 1) {
+    state.achievements.first = true;
+    showStreakToast('🏅 Conquista: Primeira Resposta!');
+  }
+  if (!state.achievements.streak5 && state.streakMax >= 5) {
+    state.achievements.streak5 = true;
+    showStreakToast('🏅 Conquista: Combo de 5!');
+  }
+  if (!state.achievements.streak10 && state.streakMax >= 10) {
+    state.achievements.streak10 = true;
+    showStreakToast('🏅 Conquista: Combo de 10!');
+  }
+  if (!state.achievements.xp100 && state.xp >= 100) {
+    state.achievements.xp100 = true;
+    showStreakToast('🏅 Conquista: 100 XP!');
+  }
+  if (!state.achievements.xp500 && state.xp >= 500) {
+    state.achievements.xp500 = true;
+    showStreakToast('🏅 Conquista: 500 XP!');
+  }
+}
+
+function showStreakToast(msg) {
+  const t = document.getElementById('streak-toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+function nextQuestion() { gameIdx++; renderQuestion(); }
+
+function endSession() {
+  const pct = gameQuestions.length ? Math.round(gameCorrect / gameQuestions.length * 100) : 0;
+  if (!state.achievements.perfect && pct === 100 && gameQuestions.length >= 5) {
+    state.achievements.perfect = true;
+    saveState();
+  }
+  document.getElementById('sessionend-msg').textContent =
+    gameCorrect + '/' + gameQuestions.length + ' corretas (' + pct + '%) · +' + gameXP + ' XP ganhos!';
+  document.getElementById('sessionend-overlay').classList.add('show');
+}
+
+function restartGame() {
+  closeOverlay('gameover-overlay');
+  closeOverlay('sessionend-overlay');
+  startGame(gameMode);
+}
+
+function quitGame() {
+  closeOverlay('gameover-overlay');
+  closeOverlay('sessionend-overlay');
+  navTo('home');
+}
+
+function confirmQuit() {
+  if (confirm('Sair da sessão? Seu progresso desta rodada será perdido.')) quitGame();
+}
+
+function toggleAutoSpeak() {
+  state.autoSpeak = !state.autoSpeak;
+  saveState();
+  document.getElementById('tts-toggle').style.opacity = state.autoSpeak ? '1' : '0.4';
+  showStreakToast(state.autoSpeak ? '🔊 Fala ativada' : '🔇 Fala desativada');
+}
+
+// ═══════════════════════════════════════
+// STUDY
+// ═══════════════════════════════════════
+let studyTab = 'rules', fcIndex = 0, fcFlipped = false;
+
+function setStudyTab(tab, btn) {
+  studyTab = tab;
+  document.querySelectorAll('.study-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  renderStudy();
+}
+
+function renderStudy(filter = '') {
+  const q = filter || document.getElementById('search-input')?.value || '';
+  const rulesDiv = document.getElementById('study-rules');
+  const fcDiv = document.getElementById('study-flashcards');
+
+  if (studyTab === 'rules') {
+    rulesDiv.style.display = 'block'; fcDiv.style.display = 'none';
+    let html = '';
+    CATEGORIES.forEach(cat => {
+      const filtered = q ? cat.items.filter(i =>
+        i.en.toLowerCase().includes(q.toLowerCase()) ||
+        i.pt.toLowerCase().includes(q.toLowerCase()) ||
+        i.exp.toLowerCase().includes(q.toLowerCase())
+      ) : cat.items;
+      if (!filtered.length) return;
+      html += '<div class="rules-card">';
+      html += '<h3>' + cat.icon + ' ' + cat.name + '</h3>';
+      filtered.forEach(item => {
+        html += '<div class="rule-row">';
+        html += '<div class="rule-tag" style="color:' + cat.color + '">' + item.en + '</div>';
+        html += '<div class="rule-desc"><strong>' + item.pt + '</strong><br>' + item.exp + '</div>';
+        html += '<button class="tts-btn" onclick="tts.speakDirect(\'' + item.en.replace(/'/g,"\\'") + '\')">🔊</button>';
+        html += '</div>';
+      });
+      html += '</div>';
+    });
+    rulesDiv.innerHTML = html || '<div style="text-align:center;color:var(--muted);padding:40px">Nenhum resultado encontrado.</div>';
+  } else {
+    rulesDiv.style.display = 'none'; fcDiv.style.display = 'block';
+    const allItems = [];
+    CATEGORIES.forEach(cat => cat.items.forEach(i => allItems.push({...i, catIcon: cat.icon, catColor: cat.color})));
+    const item = allItems[fcIndex % allItems.length];
+    fcDiv.innerHTML = '<div class="flashcard-wrap">'
+      + '<div class="flashcard" id="fc-card" onclick="flipFC()">'
+      + '<div class="fc-front">' + item.catIcon + ' ' + item.en + '</div>'
+      + '<div class="fc-sub">Clique para revelar</div>'
+      + '<div class="fc-back">' + item.pt + '</div>'
+      + '</div>'
+      + '<div style="text-align:center;color:var(--muted);font-size:.8rem;margin-bottom:10px">' + (fcIndex % allItems.length + 1) + ' / ' + allItems.length + '</div>'
+      + '<div class="fc-nav">'
+      + '<button onclick="fcIndex=Math.max(0,fcIndex-1);fcFlipped=false;renderStudy()">← Anterior</button>'
+      + '<button onclick="tts.speakDirect(\'' + item.en.replace(/'/g,"\\'") + '\')">🔊 Ouvir</button>'
+      + '<button onclick="fcIndex++;fcFlipped=false;renderStudy()">Próximo →</button>'
+      + '</div></div>';
+    if (fcFlipped) document.getElementById('fc-card')?.classList.add('flipped');
+  }
+}
+
+function flipFC() { fcFlipped = !fcFlipped; document.getElementById('fc-card')?.classList.toggle('flipped'); }
+function filterStudy() { renderStudy(document.getElementById('search-input').value); }
+
+// ═══════════════════════════════════════
+// REINFORCE
+// ═══════════════════════════════════════
+let reinforceSelected = new Set();
+function openReinforce(catId) {
+  reinforceSelected.clear();
+  const cat = CATEGORIES.find(c => c.id === catId);
+  document.getElementById('reinforce-title').textContent = '⚠️ Reforço — ' + cat.name;
+  const grid = document.getElementById('reinforce-grid');
+  grid.innerHTML = cat.items.map(item => {
+    const id = catId + '_' + item.en;
+    return '<div class="reinforce-item" id="ri_' + id.replace(/[^a-z0-9]/gi,'_') + '" data-id="' + id + '" onclick="toggleReinforce(\'' + id.replace(/'/g,"\\'") + '\')">'
+      + '<div><div class="ri-text">' + item.en + '</div><div class="ri-sub">' + item.pt + '</div></div>'
+      + '<div class="ri-flag">⚠️</div></div>';
+  }).join('');
+  document.getElementById('reinforce-count').textContent = '0';
+  document.getElementById('reinforce-train-btn').disabled = true;
+  selectedCat = catId;
+  navTo('reinforce');
+}
+
+function toggleReinforce(id) {
+  const safeId = 'ri_' + id.replace(/[^a-z0-9]/gi,'_');
+  const el = document.getElementById(safeId);
+  if (!el) return;
+  if (reinforceSelected.has(id)) {
+    reinforceSelected.delete(id);
+    el.classList.remove('selected');
+  } else {
+    reinforceSelected.add(id);
+    el.classList.add('selected');
+  }
+  document.getElementById('reinforce-count').textContent = reinforceSelected.size;
+  document.getElementById('reinforce-train-btn').disabled = reinforceSelected.size === 0;
+}
+
+// ═══════════════════════════════════════
+// STATS
+// ═══════════════════════════════════════
+function renderStats() {
+  document.getElementById('st-total').textContent = state.xp;
+  document.getElementById('st-level').textContent = state.level;
+  document.getElementById('st-correct').textContent = state.totalCorrect;
+  document.getElementById('st-streak').textContent = state.streakMax;
+
+  const catList = document.getElementById('cat-stats-list');
+  catList.innerHTML = CATEGORIES.map(cat => {
+    const cs = state.catStats[cat.id] || {correct:0,answered:0};
+    const pct = cs.answered ? Math.round(cs.correct / cs.answered * 100) : 0;
+    return '<div class="cat-stat-row">'
+      + '<div class="csr-icon">' + cat.icon + '</div>'
+      + '<div class="csr-info"><div class="csr-name">' + cat.name + '</div>'
+      + '<div class="cat-bar"><div class="cat-bar-fill" style="width:' + pct + '%"></div></div></div>'
+      + '<div class="csr-pct">' + (cs.answered ? pct + '%' : '—') + '</div></div>';
+  }).join('');
+
+  const ACHIEVEMENTS_DEF = [
+    { id: 'first', icon: '🌱', name: 'Primeira Resposta', desc: 'Responda sua primeira pergunta' },
+    { id: 'streak5', icon: '🔥', name: 'Combo de 5', desc: '5 acertos seguidos' },
+    { id: 'streak10', icon: '⚡', name: 'Combo de 10', desc: '10 acertos seguidos' },
+    { id: 'xp100', icon: '⭐', name: '100 XP', desc: 'Acumule 100 XP' },
+    { id: 'xp500', icon: '💫', name: '500 XP', desc: 'Acumule 500 XP' },
+    { id: 'perfect', icon: '🏆', name: 'Perfeito!', desc: 'Sessão com 100% de acerto (5+ perguntas)' },
+  ];
+  document.getElementById('achievements-list').innerHTML = ACHIEVEMENTS_DEF.map(a => {
+    const unlocked = state.achievements[a.id];
+    return '<div class="achievement' + (unlocked ? ' unlocked' : '') + '">'
+      + '<div class="ach-icon">' + a.icon + '</div>'
+      + '<div><div class="ach-name">' + a.name + '</div><div class="ach-desc">' + a.desc + '</div></div></div>';
+  }).join('');
+}
+
+// ═══════════════════════════════════════
+// RANKING
+// ═══════════════════════════════════════
+const FAKE_PLAYERS = [
+  { name: 'Julia 🇧🇷', xp: 1450 },
+  { name: 'Pedro', xp: 980 },
+  { name: 'Sarah 🇺🇸', xp: 720 },
+  { name: 'Carlos', xp: 540 },
+  { name: 'Ana', xp: 310 },
+  { name: 'Lucas', xp: 180 },
+  { name: 'Beatriz', xp: 95 },
+];
+
+function renderRanking() {
+  const players = [...FAKE_PLAYERS, { name: 'Você ⭐', xp: state.xp, isYou: true }];
+  players.sort((a, b) => b.xp - a.xp);
+  const colors = ['gold', 'silver', 'bronze'];
+  const avatarColors = ['#ce82ff','#58cc02','#1cb0f6','#ffd900','#ff4b4b','#ce82ff','#58cc02','#1cb0f6'];
+  document.getElementById('ranking-list').innerHTML = players.map((p, i) => {
+    const posClass = colors[i] || '';
+    return '<div class="ranking-item' + (p.isYou ? ' you' : '') + '">'
+      + '<div class="rank-pos ' + posClass + '">' + (i+1) + '</div>'
+      + '<div class="rank-avatar" style="background:' + avatarColors[i % avatarColors.length] + '22;color:' + avatarColors[i % avatarColors.length] + '">' + p.name[0] + '</div>'
+      + '<div class="rank-name">' + p.name + (p.isYou ? '' : '') + '</div>'
+      + '<div class="rank-xp">' + p.xp + ' XP</div></div>';
+  }).join('');
+}
+
+// ═══════════════════════════════════════
+// UTILS
+// ═══════════════════════════════════════
+function shuffle(arr) { return [...arr].sort(() => Math.random() - 0.5); }
+
+// ═══════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════
+tts.init();
+renderHome();
+renderStudy();
+</script>
+</body>
+</html>
